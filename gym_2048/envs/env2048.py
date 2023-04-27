@@ -135,7 +135,8 @@ class Env2048(gym.Env):
             if (row[temp]):
                 if (row[temp - 1] == row[temp]):
                     row[temp - 1] = row[temp - 1] * 2
-                    self.__score += np.log2(row[temp - 1])
+#                     self.__score += np.log2(row[temp - 1])
+                    self.__score += row[temp - 1]
                     row[temp] = 0
                     if(self.__max_block < row[temp - 1]):
                         self.__max_block = row[temp - 1]
