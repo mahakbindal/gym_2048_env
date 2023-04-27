@@ -149,6 +149,8 @@ class Env2048(gym.Env):
             self.__invalid_step += 1
             self.__score = self.__penalty
         else:
+            # If move if valid, reset invalid step count
+            self.__invalid_step = 0
             self.board = self.__temp_board.copy()
             self.__add_block()
 
