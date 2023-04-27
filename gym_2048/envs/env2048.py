@@ -159,9 +159,11 @@ class Env2048(gym.Env):
             self.__invalid_step > self.__invalid_move_warmup and
             self.__invalid_step > self.__invalid_move_threshold * self.__step
         ):
+            print("Too many invalid steps")
             return True, self.__score + self.__penalty
         elif (self.__max_block == 2048):
             '''check whether the max value is get the 2048 or not'''
+            print("Reached 2048")
             return True, self.__score + 10
         elif (self.__max_block == 2 ** (self.__deep_ob - 1)):
             return True, self.__score + 1000
@@ -174,6 +176,7 @@ class Env2048(gym.Env):
                 for temp in range(1, len(row)):
                     if (row[temp - 1] == row[temp]):
                         return False, self.__score
+            print("We are not sure")
             return True, self.__score
         elif(self.__no_rest is False):
             return False, self.__score
