@@ -160,7 +160,7 @@ class Env2048(gym.Env):
             self.__invalid_step > self.__invalid_move_threshold * self.__step
         ):
             return True, self.__score + self.__penalty
-        elif (self.__max_block == 2048):
+        elif (self.__max_block == 4):
             '''check whether the max value is get the 2048 or not'''
             return True, self.__score + 10
         elif (self.__max_block == 2 ** (self.__deep_ob - 1)):
