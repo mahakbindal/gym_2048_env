@@ -30,7 +30,7 @@ class Env2048(gym.Env):
         self.__no_rest = False
 
         self.__deep_ob = 16
-        self.__board = np.zeros((self.__high, self.__wide), dtype=np.int32)
+        self.board = np.zeros((self.__high, self.__wide), dtype=np.int32)
         self.__temp_board = np.zeros((self.__high, self.__wide), dtype=np.int32)
         self.observation_space = spaces.Box(low=0, high=255, shape=(self.__high, self.__wide,self.__deep_ob), dtype=np.uint8)
         self.__add_block()
@@ -63,16 +63,16 @@ class Env2048(gym.Env):
     def __add_block(self):
         '''This is used to add new blocks to the rest of the board.'''
         try:
-            rest = np.argwhere(self.__board == 0)
+            rest = np.argwhere(self.board == 0)
             choose = self.__np_random.choice(len(rest))
-            self.__board[rest[choose][0],rest[choose][1]] = 2
+            self.board[rest[choose][0],rest[choose][1]] = 2
         except:
             self.__no_rest = True
 
     def __check_rest(self):
         '''This is used to check if there are any squares left on the board'''
         try:
-            rest = np.argwhere(self.__board == 0)
+            rest = np.argwhere(self.board == 0)
             a = rest[0]
         except:
             self.__no_rest = True
@@ -144,11 +144,11 @@ class Env2048(gym.Env):
         '''This part is to check whether the move is valid or not.'''
         self.__step += 1
         self.__total_score += self.__score
-        if np.array_equal(self.__temp_board, self.__board):
+        if np.array_equal(self.__temp_board, self.board):
             self.__invalid_step += 1
             self.__score = self.__penalty
         else:
-            self.__board = self.__temp_board.copy()
+            self.board = self.__temp_board.copy()
             self.__add_block()
 
     def __check_state(self):
@@ -166,11 +166,11 @@ class Env2048(gym.Env):
         elif (self.__max_block == 2 ** (self.__deep_ob - 1)):
             return True, self.__score + 1000
         elif(self.__no_rest):
-            for row in self.__board:
+            for row in self.board:
                 for temp in range(1, len(row)):
                     if (row[temp - 1] == row[temp]):
                         return False, self.__score
-            for row in self.__board.T:
+            for row in self.board.T:
                 for temp in range(1, len(row)):
                     if (row[temp - 1] == row[temp]):
                         return False, self.__score
@@ -183,8 +183,8 @@ class Env2048(gym.Env):
         temp_ob = np.zeros((self.__high, self.__wide,self.__deep_ob), dtype=np.uint8)
         for h in range(self.__high):
             for w in range(self.__wide):
-                if self.__board[h,w]:
-                    deep = int(np.log2(self.__board[h,w]))
+                if self.board[h,w]:
+                    deep = int(np.log2(self.board[h,w]))
                     temp_ob[h, w,0] = np.uint8(255)
                     temp_ob[h, w,deep] = np.uint8(255)
         return temp_ob
@@ -192,14 +192,14 @@ class Env2048(gym.Env):
     def step(self, action):
         '''This is used to do steps for agents.'''
         info = dict()
-        self.__temp_board = self.__board.copy()
-        info["old_state"]=self.__board.copy()
+        self.__temp_board = self.board.copy()
+        info["old_state"]=self.board.copy()
         self.__move(action)
         self.__check_move()
         self.__check_rest()
         done, reward = self.__check_state()
         info["step"] = self.__step
-        info["new_state"] = self.__board.copy()
+        info["new_state"] = self.board.copy()
         info["total_score"] = self.__total_score
         info["max_block"] = self.__max_block
         observation  = self.__create_ob()
@@ -216,7 +216,7 @@ class Env2048(gym.Env):
         self.__max_block = 0
         self.__no_rest = False
 
-        self.__board = np.zeros((self.__high, self.__wide), dtype=np.int32)
+        self.board = np.zeros((self.__high, self.__wide), dtype=np.int32)
         self.__temp_board = np.zeros((self.__high, self.__wide), dtype=np.int32)
         self.__add_block()
         self.__add_block()
@@ -243,7 +243,7 @@ class Env2048(gym.Env):
 
         for i in range(self.__high):
             for j in range(self.__wide):
-                num = self.__board[i,j]
+                num = self.board[i,j]
 
                 rect_x = int(j * self.window_size / self.__wide) + 10
                 rect_y = int(i * self.window_size / self.__wide) + 10
