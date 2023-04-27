@@ -8,7 +8,7 @@ import numpy as np
 class Env2048(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
 
-    def __init__(self, high = 4, wide = 4, seed = None, invalid_move_warmup=16,
+    def __init__(self, high = 4, wide = 4, seed = None, invalid_move_warmup=50,
                  invalid_move_threshold=0.1, penalty=-5,):
 
         self.seed(seed)
@@ -150,7 +150,7 @@ class Env2048(gym.Env):
             self.__score = self.__penalty
         else:
             # If move if valid, reset invalid step count
-            self.__invalid_step = 0
+#             self.__invalid_step = 0
             self.board = self.__temp_board.copy()
             self.__add_block()
 
