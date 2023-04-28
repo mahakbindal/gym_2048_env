@@ -211,9 +211,10 @@ class Env2048(gym.Env):
         observation  = self.__create_ob()
         return(observation, float(reward), done, info)
 
-    def reset(self, seed=None):
+    def reset(self, seed=None, **kwargs):
         '''This is to reset this environment.'''
         self.seed(seed)
+        print(kwargs)
 
         self.__score = 0
         self.__total_score = 0
