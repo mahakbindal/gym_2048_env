@@ -162,7 +162,6 @@ class Env2048(gym.Env):
             self.__invalid_step > self.__invalid_move_warmup and
             self.__invalid_step > self.__invalid_move_threshold * self.__step
         ):
-            print("Too many invalid steps")
             return True, self.__score + self.__penalty
         elif (self.__max_block == 2048):
             '''check whether the max value is get the 2048 or not'''
@@ -179,7 +178,6 @@ class Env2048(gym.Env):
                 for temp in range(1, len(row)):
                     if (row[temp - 1] == row[temp]):
                         return False, self.__score
-            print("We are not sure")
             return True, self.__score
         elif(self.__no_rest is False):
             return False, self.__score
@@ -229,7 +227,7 @@ class Env2048(gym.Env):
         self.__add_block()
 
         observation = self.__create_ob()
-        return observation, {}
+        return observation, "Environment has been reset"
 
     def render(self, mode="human"):
         '''This is to render a graphical interface for the environment.
