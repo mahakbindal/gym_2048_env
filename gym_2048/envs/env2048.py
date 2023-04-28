@@ -229,7 +229,7 @@ class Env2048(gym.Env):
         self.__add_block()
 
         observation = self.__create_ob()
-        return observation, {}
+        return observation
 
     def render(self, mode="human"):
         '''This is to render a graphical interface for the environment.
